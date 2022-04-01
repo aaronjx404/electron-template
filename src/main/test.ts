@@ -1,3 +1,3 @@
 export default function test() {
-  console.log(123123123123123123);
+  console.log('change test success!!');
 }

@@ -2,35 +2,16 @@ process.env.NODE_ENV = 'development';
 
 const chalk = require('chalk');
 const electron = require('electron');
-const path = require('path');
 const rollup = require('rollup');
-const commonjs = require('@rollup/plugin-commonjs');
-const { builtinModules } = require('module');
-
 const { say } = require('cfonts');
 const { spawn } = require('child_process');
+const rollupOptions = require('./rollup.config')('dev');
 
 const config = {
   dev: {
     chineseLog: false,
     removeElectronJunk: true,
   },
-};
-
-const opt = {
-  input: path.join(__dirname, '../src/main/index.ts'),
-  output: {
-    file: path.join(__dirname, '../dist/electron/main/main.js'),
-    format: 'cjs',
-    name: 'MainProcess',
-    sourcemap: false,
-  },
-  plugins: [
-    commonjs({
-      sourceMap: false,
-    }),
-  ],
-  external: [...builtinModules, 'electron'],
 };
 
 let electronProcess = null;
@@ -83,7 +64,7 @@ function removeJunk(chunk) {
 
 function startMain() {
   return new Promise((resolve, reject) => {
-    const watcher = rollup.watch(opt);
+    const watcher = rollup.watch(rollupOptions);
     watcher.on('change', (filename) => {
       // 主进程日志部分
       logStats(`${config.dev.chineseLog ? '主进程文件变更' : 'Main-FileChange'}`, filename);
@@ -110,7 +91,7 @@ function startMain() {
 }
 
 function startElectron() {
-  var args = ['--inspect=5858', path.join(__dirname, '../dist/electron/main/main.js')];
+  var args = ['--inspect=5858', rollupOptions.output.file];
 
   // detect yarn or npm and process commandline args accordingly
   if (process.env.npm_execpath.endsWith('yarn.js')) {
