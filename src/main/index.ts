@@ -1,8 +1,11 @@
 import { app, BrowserWindow } from 'electron';
 import { join } from 'path';
 import test from './test';
+import addon from '../../dll/wecom.node';
 
 test();
+
+console.log(addon);
 
 function onAppReady() {
   const win = new BrowserWindow({ width: 1350, height: 830 });

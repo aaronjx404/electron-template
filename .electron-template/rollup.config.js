@@ -7,6 +7,7 @@ const json = require('@rollup/plugin-json');
 const replace = require('@rollup/plugin-replace');
 const obfuscator = require('rollup-plugin-obfuscator').default;
 const esbuild = require('rollup-plugin-esbuild').default;
+const nodeFileLoader = require('./esbuild-node-file-loader');
 
 const config = (env = 'production') => {
   const configObject = {
@@ -31,7 +32,7 @@ const config = (env = 'production') => {
       esbuild({
         // All options are optional
         include: /\.[jt]s?$/, // default, inferred from `loaders` option
-        exclude: /node_modules/, // default
+        exclude: [/node_modules/, /dll/], // default
         // watch: process.argv.includes('--watch'), // rollup 中有配置
         sourceMap: false, // default
         minify: process.env.NODE_ENV === 'production',
@@ -46,8 +47,14 @@ const config = (env = 'production') => {
           // require @rollup/plugin-commonjs
           '.json': 'json',
           '.ts': 'ts',
+          // '.node': 'file',
           // Enable JSX in .js files too
         },
+        // optimizeDeps: {
+        //   esbuildOptions: {
+        //     plugins: [nodeFileLoader],
+        //   },
+        // },
       }),
       alias({
         entries: [
