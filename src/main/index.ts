@@ -1,7 +1,9 @@
 import { app, BrowserWindow } from 'electron';
-import { join } from 'path';
-import test from './test';
-import addon from '../../dll/wecom.node';
+import { join, resolve } from 'path';
+import test from '@main/test';
+
+const addon = require('../../dll/wecom.node');
+// const addon = require(addonfile);
 
 test();
 
@@ -9,7 +11,7 @@ console.log(addon);
 
 function onAppReady() {
   const win = new BrowserWindow({ width: 1350, height: 830 });
-  win.loadURL(`file://${join(__dirname, '..', 'src/renderer', 'index.html')}`);
+  win.loadURL(`file://${join(__dirname, '..', 'renderer', 'index.html')}`);
   win.once('ready-to-show', () => {
     win.show();
     // 开发模式下自动开启devtools

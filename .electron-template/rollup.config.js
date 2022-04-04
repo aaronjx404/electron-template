@@ -13,7 +13,7 @@ const config = (env = 'production') => {
   const configObject = {
     input: path.join(__dirname, '../src/main/index.ts'),
     output: {
-      file: path.join(__dirname, '../.main/main.js'),
+      file: path.join(__dirname, '../dist/main/main.js'),
       format: 'cjs',
       name: 'MainProcess',
       sourcemap: false,
@@ -61,6 +61,7 @@ const config = (env = 'production') => {
           { find: '@main', replacement: path.join(__dirname, '..', 'src', 'main') },
           { find: '@config', replacement: path.join(__dirname, '..', 'config') },
           { find: '@common', replacement: path.join(__dirname, '..', 'src', 'common') },
+          { find: 'wecom', replacement: path.join(__dirname, '..', 'src', 'dll/wecom.node') },
         ],
       }),
     ],

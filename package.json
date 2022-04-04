@@ -1,7 +1,7 @@
 {
   "name": "electron-template",
   "version": "1.0.0",
-  "main": "src/.main/index.js",
+  "main": "dist/main/index.js",
   "license": "MIT",
   "scripts": {
     "dev": "node .electron-template/dev-runner.js"
