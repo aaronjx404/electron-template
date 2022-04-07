@@ -1,13 +1,15 @@
 import { app, BrowserWindow } from 'electron';
 import { join, resolve } from 'path';
-import test from '@main/test';
+import test from './test';
 
 const addon = require('../../dll/wecom.node');
+const db = require('./database/db');
 // const addon = require(addonfile);
 
 test();
 
 console.log(addon);
+console.log(db);
 
 function onAppReady() {
   const win = new BrowserWindow({ width: 1350, height: 830 });
